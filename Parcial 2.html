@@ -69,8 +69,217 @@
 <body class="container py-4">
     <h1 class="text-center mb-4">Algoritmos Genéticos Interactivos</h1>
 
-    <!-- Ejercicios 1-10 (código previo) -->
-    <!-- ... -->
+    <!-- Ejercicio 1: Optimización de función cuadrática -->
+    <div class="ejercicio">
+        <h2>Ejercicio 1: Optimización de Función Cuadrática</h2>
+        <p>Minimizar la función <strong>f(x) = x²</strong> usando un algoritmo genético.</p>
+        
+        <div class="row parametros">
+            <div class="col-md-4 parametro-group">
+                <label for="gen1" class="form-label">Generaciones:</label>
+                <input type="number" id="gen1" class="form-control" value="50" min="10">
+            </div>
+            <div class="col-md-4 parametro-group">
+                <label for="pop1" class="form-label">Población:</label>
+                <input type="number" id="pop1" class="form-control" value="20" min="5">
+            </div>
+        </div>
+        
+        <button id="btn-ej1" class="btn btn-custom">Ejecutar Algoritmo Genético</button>
+        <div id="grafico-ej1" class="grafico-container"></div>
+        <div id="resultado-ej1" class="resultado"></div>
+    </div>
+
+    <!-- Ejercicio 2: Maximización de función lineal -->
+    <div class="ejercicio">
+        <h2>Ejercicio 2: Maximización de Función Lineal</h2>
+        <p>Maximizar la función <strong>f(x) = 5x + 3</strong> usando un algoritmo genético.</p>
+        
+        <div class="row parametros">
+            <div class="col-md-4 parametro-group">
+                <label for="gen2" class="form-label">Generaciones:</label>
+                <input type="number" id="gen2" class="form-control" value="50" min="10">
+            </div>
+            <div class="col-md-4 parametro-group">
+                <label for="pop2" class="form-label">Población:</label>
+                <input type="number" id="pop2" class="form-control" value="20" min="5">
+            </div>
+        </div>
+        
+        <button id="btn-ej2" class="btn btn-custom">Ejecutar Algoritmo Genético</button>
+        <div id="grafico-ej2" class="grafico-container"></div>
+        <div id="resultado-ej2" class="resultado"></div>
+    </div>
+
+    <!-- Ejercicio 3: Optimización de la Función de Ackley -->
+    <div class="ejercicio">
+        <h2>Ejercicio 3: Optimización de la Función de Ackley</h2>
+        <div class="row parametros">
+            <div class="col-md-4 parametro-group">
+                <label for="num-individuos" class="form-label">Número de individuos:</label>
+                <input type="number" id="num-individuos" class="form-control" value="50" min="10">
+            </div>
+            <div class="col-md-4 parametro-group">
+                <label for="generaciones" class="form-label">Generaciones:</label>
+                <input type="number" id="generaciones" class="form-control" value="100" min="10">
+            </div>
+            <div class="col-md-4 parametro-group">
+                <label for="tasa-mutacion" class="form-label">Tasa de mutación (0-1):</label>
+                <input type="number" id="tasa-mutacion" class="form-control" value="0.1" min="0" max="1" step="0.01">
+            </div>
+        </div>
+        <button id="ejecutar-ackley" class="btn btn-custom">Ejecutar Algoritmo Genético</button>
+        <div id="grafico-ackley" class="grafico-container"></div>
+        <div id="resultado-ackley" class="resultado"></div>
+    </div>
+
+    <!-- Ejercicio 4: Algoritmo Genético para Número Primo Más Cercano -->
+    <div class="ejercicio">
+        <h2>Ejercicio 4: Algoritmo Genético para Número Primo Más Cercano</h2>
+        <p>Ingresa un número para encontrar el primo más cercano usando un algoritmo genético:</p>
+        <div class="row">
+            <div class="col-md-4">
+                <input type="number" id="numero" class="form-control" value="20" min="2">
+            </div>
+            <div class="col-md-4">
+                <button id="ejecutar-primo" class="btn btn-custom">Encontrar Primo</button>
+            </div>
+        </div>
+        <div id="resultado-primo" class="resultado"></div>
+    </div>
+
+    <!-- Ejercicio 5: Problema del Cambio de Monedas -->
+    <div class="ejercicio">
+        <h2>Ejercicio 5: Problema del Cambio de Monedas</h2>
+        <p>Ingresa la cantidad de dinero para dar el cambio exacto:</p>
+        <div class="row">
+            <div class="col-md-4">
+                <input type="number" id="monto" class="form-control" value="47" min="1">
+            </div>
+            <div class="col-md-4">
+                <button id="ejecutar-monedas" class="btn btn-custom">Calcular Cambio</button>
+            </div>
+        </div>
+        <div id="resultado-monedas" class="resultado"></div>
+    </div>
+
+    <!-- Ejercicio 6: Problema del Viajante -->
+    <div class="ejercicio">
+        <h2>Ejercicio 6: Problema del Viajante (TSP)</h2>
+        <p>Optimización de ruta para visitar ciudades usando un algoritmo genético.</p>
+        <div class="row parametros">
+            <div class="col-md-4 parametro-group">
+                <label for="num-ciudades" class="form-label">Número de ciudades:</label>
+                <input type="number" id="num-ciudades" class="form-control" value="5" min="3" max="10">
+            </div>
+            <div class="col-md-4 parametro-group">
+                <label for="pob-tsp" class="form-label">Población:</label>
+                <input type="number" id="pob-tsp" class="form-control" value="50" min="10">
+            </div>
+            <div class="col-md-4 parametro-group">
+                <label for="gen-tsp" class="form-label">Generaciones:</label>
+                <input type="number" id="gen-tsp" class="form-control" value="100" min="10">
+            </div>
+        </div>
+        <button id="ejecutar-tsp" class="btn btn-custom">Optimizar Ruta</button>
+        <div id="grafico-tsp" class="grafico-container"></div>
+        <div id="resultado-tsp" class="resultado"></div>
+    </div>
+
+    <!-- Ejercicio 7: Optimización del Diseño de un Puente -->
+    <div class="ejercicio">
+        <h2>Ejercicio 7: Optimización del Diseño de un Puente</h2>
+        <p>Modela un problema donde se busca minimizar el peso de una estructura de puente sin que se rompa.</p>
+        <div class="row parametros">
+            <div class="col-md-4 parametro-group">
+                <label for="pob-puente" class="form-label">Población:</label>
+                <input type="number" id="pob-puente" class="form-control" value="50" min="10">
+            </div>
+            <div class="col-md-4 parametro-group">
+                <label for="gen-puente" class="form-label">Generaciones:</label>
+                <input type="number" id="gen-puente" class="form-control" value="100" min="10">
+            </div>
+            <div class="col-md-4 parametro-group">
+                <label for="mut-puente" class="form-label">Tasa de mutación:</label>
+                <input type="number" id="mut-puente" class="form-control" value="0.1" min="0" max="1" step="0.01">
+            </div>
+        </div>
+        <button id="ejecutar-puente" class="btn btn-custom">Optimizar Diseño</button>
+        <div id="resultado-puente" class="resultado"></div>
+    </div>
+
+    <!-- Ejercicio 8: Asignación de Recursos en una Empresa -->
+    <div class="ejercicio">
+        <h2>Ejercicio 8: Asignación de Recursos en una Empresa</h2>
+        <p>Asigna recursos (como empleados o maquinaria) a tareas, de modo que el tiempo total de ejecución sea el mínimo.</p>
+        <div class="row parametros">
+            <div class="col-md-4 parametro-group">
+                <label for="num-tareas" class="form-label">Número de tareas:</label>
+                <input type="number" id="num-tareas" class="form-control" value="5" min="2" max="10">
+            </div>
+            <div class="col-md-4 parametro-group">
+                <label for="num-recursos" class="form-label">Número de recursos:</label>
+                <input type="number" id="num-recursos" class="form-control" value="3" min="2" max="5">
+            </div>
+            <div class="col-md-4 parametro-group">
+                <label for="pob-asignacion" class="form-label">Población:</label>
+                <input type="number" id="pob-asignacion" class="form-control" value="50" min="10">
+            </div>
+        </div>
+        <button id="ejecutar-asignacion" class="btn btn-custom">Optimizar Asignación</button>
+        <div id="resultado-asignacion" class="resultado"></div>
+        <div id="tabla-asignacion"></div>
+    </div>
+
+    <!-- Ejercicio 9: Selección de Características en Aprendizaje Automático -->
+    <div class="ejercicio">
+        <h2>Ejercicio 9: Selección de Características en ML</h2>
+        <p>Usa un algoritmo genético para seleccionar las características más relevantes para un modelo de clasificación.</p>
+        <div class="row parametros">
+            <div class="col-md-4 parametro-group">
+                <label for="dataset" class="form-label">Conjunto de datos:</label>
+                <select id="dataset" class="form-control">
+                    <option value="iris">Iris</option>
+                    <option value="wine">Wine</option>
+                    <option value="breast_cancer">Breast Cancer</option>
+                </select>
+            </div>
+            <div class="col-md-4 parametro-group">
+                <label for="pob-caracteristicas" class="form-label">Población:</label>
+                <input type="number" id="pob-caracteristicas" class="form-control" value="50" min="10">
+            </div>
+            <div class="col-md-4 parametro-group">
+                <label for="gen-caracteristicas" class="form-label">Generaciones:</label>
+                <input type="number" id="gen-caracteristicas" class="form-control" value="50" min="10">
+            </div>
+        </div>
+        <button id="ejecutar-caracteristicas" class="btn btn-custom">Seleccionar Características</button>
+        <div id="resultado-caracteristicas" class="resultado"></div>
+        <div id="grafico-caracteristicas" class="grafico-container"></div>
+    </div>
+
+    <!-- Ejercicio 10: Optimización de una Red de Distribución de Energía -->
+    <div class="ejercicio">
+        <h2>Ejercicio 10: Optimización de Red Eléctrica</h2>
+        <p>Optimiza los parámetros de una red de distribución eléctrica para minimizar las pérdidas de energía.</p>
+        <div class="row parametros">
+            <div class="col-md-4 parametro-group">
+                <label for="num-nodos" class="form-label">Número de nodos:</label>
+                <input type="number" id="num-nodos" class="form-control" value="5" min="3" max="10">
+            </div>
+            <div class="col-md-4 parametro-group">
+                <label for="pob-red" class="form-label">Población:</label>
+                <input type="number" id="pob-red" class="form-control" value="50" min="10">
+            </div>
+            <div class="col-md-4 parametro-group">
+                <label for="gen-red" class="form-label">Generaciones:</label>
+                <input type="number" id="gen-red" class="form-control" value="100" min="10">
+            </div>
+        </div>
+        <button id="ejecutar-red" class="btn btn-custom">Optimizar Red</button>
+        <div id="resultado-red" class="resultado"></div>
+        <div id="grafico-red" class="grafico-container"></div>
+    </div>
 
     <!-- Ejercicio 11: Optimización de la Arquitectura de una Red Neuronal -->
     <div class="ejercicio">
@@ -215,7 +424,7 @@
 
     <!-- Ejercicio 17: Evolución de Soluciones para un Problema de Optimización en un Sistema Multiagente -->
     <div class="ejercicio">
-        <h2>Ejercicio 17: Optimización en Sistema Multiagente</h2>
+        <h2>Ejercicio 17: Evolución de Soluciones para un Problema de Optimización en un Sistema Multiagente</h2>
         <p>En un entorno multiagente, utiliza AGs para encontrar soluciones óptimas para la cooperación entre los agentes.</p>
         
         <div class="row parametros">
@@ -239,7 +448,7 @@
 
     <!-- Ejercicio 18: Diseño de Circuitos Electrónicos Usando AG -->
     <div class="ejercicio">
-        <h2>Ejercicio 18: Diseño de Circuitos Electrónicos</h2>
+        <h2>Ejercicio 18: Diseño de Circuitos Electrónicos Usando AG</h2>
         <p>Implementa un AG para encontrar la configuración óptima de un circuito electrónico, como un amplificador.</p>
         
         <div class="row parametros">
@@ -263,7 +472,7 @@
 
     <!-- Ejercicio 19: Optimización de Algoritmos de Búsqueda de Rutas en un Mapa (con Gráfico) -->
     <div class="ejercicio">
-        <h2>Ejercicio 19: Optimización de Búsqueda de Rutas</h2>
+        <h2>Ejercicio 19: Optimización de Algoritmos de Búsqueda de Rutas en un Mapa (con Gráfico)</h2>
         <p>Mejora el algoritmo de búsqueda de rutas usando AGs para encontrar rutas más rápidas y seguras.</p>
         
         <div class="row parametros">
@@ -287,61 +496,7 @@
     </div>
 
     <py-config>
-        packages = ["numpy", "matplotlib", "scikit-learn"]
+       
     </py-config>
 
     <py-script>
-        # Aquí iría el código Python para todos los ejercicios
-        # Se han incluido los códigos que proporcionaste anteriormente
-        # Cada ejercicio tendría su propia función y manejo de eventos
-
-        # Ejemplo para el Ejercicio 11:
-        def optimizar_red_neuronal(poblacion_size, generaciones, tasa_mutacion):
-            # Implementación del algoritmo genético para redes neuronales
-            pass
-
-        # Ejemplo para el Ejercicio 19:
-        def optimizar_rutas(num_ciudades, poblacion_size, generaciones):
-            # Implementación del algoritmo genético para rutas
-            pass
-
-        # Configuración de eventos para los botones
-        from js import document
-        from pyodide.ffi import create_proxy
-
-        def setup_event_listeners():
-            # Configurar eventos para cada botón
-            document.getElementById("ejecutar-red-neuronal").addEventListener("click", create_proxy(lambda: 
-                ejecutar_ejercicio(11)))
-            
-            document.getElementById("ejecutar-ruta").addEventListener("click", create_proxy(lambda: 
-                ejecutar_ejercicio(19)))
-            
-            # Configurar eventos para los demás ejercicios...
-
-        def ejecutar_ejercicio(num_ejercicio):
-            if num_ejercicio == 11:
-                poblacion = int(document.getElementById("pob-red-neuronal").value)
-                generaciones = int(document.getElementById("gen-red-neuronal").value)
-                mutacion = float(document.getElementById("mut-red-neuronal").value)
-                
-                # Llamar a la función de optimización
-                resultado = optimizar_red_neuronal(poblacion, generaciones, mutacion)
-                document.getElementById("resultado-red-neuronal").innerText = f"Mejor arquitectura: {resultado}"
-            
-            elif num_ejercicio == 19:
-                num_ciudades = int(document.getElementById("num-ciudades-ruta").value)
-                poblacion = int(document.getElementById("pob-ruta").value)
-                generaciones = int(document.getElementById("gen-ruta").value)
-                
-                # Llamar a la función de optimización de rutas
-                resultado = optimizar_rutas(num_ciudades, poblacion, generaciones)
-                document.getElementById("resultado-ruta").innerText = f"Mejor ruta encontrada: {resultado}"
-            
-            # Manejar otros ejercicios...
-
-        # Configurar los event listeners cuando la página cargue
-        setup_event_listeners()
-    </py-script>
-</body>
-</html>
