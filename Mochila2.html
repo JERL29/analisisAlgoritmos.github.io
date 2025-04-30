@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problema del Viajero</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #ffffff;
+        }
+        h1 {
+            color: #000;
+        }
+        h2 {
+            color: #555;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+        }
+        table {
+            margin: 20px auto;
+            border-collapse: collapse;
+            width: 80%;
+            background: white;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        button {
+            padding: 12px 20px;
+            font-size: 16px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin: 10px;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        #resultado, #resultado2 {
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        .volver {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: purple;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            width: 150px;
+        }
+        .volver:hover {
+            background-color: darkviolet;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Problema del Viajero</h1>
+
+    <div class="container">
+        <h2>Ejemplo</h2>
+        <table>
+            <tr>
+                <th>Objeto</th>
+                <th>Valor ($)</th>
+                <th>Peso (kg)</th>
+            </tr>
+            <tr><td>Guitarra 🎸</td><td>1500</td><td>1</td></tr>
+            <tr><td>Laptop 💻</td><td>2000</td><td>3</td></tr>
+            <tr><td>Radio 📻</td><td>3000</td><td>4</td></tr>
+            <tr><td>Teléfono 📱</td><td>2000</td><td>1</td></tr>
+            <tr><td>Anillo 💍</td><td>2500</td><td>0.5</td></tr>
+        </table>
+        <button onclick="resolverMochilaGreedy()">Calcular mejor combinación</button>
+        <h2>Resultado:</h2>
+        <p id="resultado"></p>
+    </div>
+
+    <div class="container">
+        <h2>Ejemplo</h2>
+        <table id="tablaObjetos">
+            <tr>
+                <th>Objeto</th>
+                <th>Valor ($)</th>
+                <th>Peso (kg)</th>
+            </tr>
+        </table>
+
+        <div>
+            <input type="text" id="nombreObjeto" placeholder="Nombre del objeto">
+            <input type="number" id="valorObjeto" placeholder="Valor ($)">
+            <input type="number" id="pesoObjeto" placeholder="Peso (kg)" step="0.1">
+            <button onclick="agregarObjeto()">Agregar Objeto</button>
+        </div>
+
+        <button onclick="calcularMejorCombinacion()">Calcular mejor combinación</button>
+
+        <h2 id="resultado2">Resultado:</h2>
+    </div>
+
+    <a href="index.html" class="volver">Volver al inicio</a>
+
+
+    <script>
+        function knapsackGreedy(objetos, capacidadMaxima) {
+            objetos.sort((a, b) => (b.valor / b.peso) - (a.valor / a.peso));
+            let pesoTotal = 0;
+            let valorTotal = 0;
+            let seleccionados = [];
+
+            for (let obj of objetos) {
+                if (pesoTotal + obj.peso <= capacidadMaxima) {
+                    seleccionados.push(obj);
+                    pesoTotal += obj.peso;
+                    valorTotal += obj.valor;
+                }
+            }
+
+            return { valorTotal, pesoTotal, objetosSeleccionados: seleccionados };
+        }
+
+        function resolverMochilaGreedy() {
+            const capacidadMaxima = 10;
+            let objetos = [
+                { nombre: "Guitarra 🎸", valor: 1500, peso: 1 },
+                { nombre: "Laptop 💻", valor: 2000, peso: 3 },
+                { nombre: "Radio 📻", valor: 3000, peso: 4 },
+                { nombre: "Teléfono 📱", valor: 2000, peso: 1 },
+                { nombre: "Anillo 💍", valor: 2500, peso: 0.5 }
+            ];
+            
+            let solucionGreedy = knapsackGreedy(objetos, capacidadMaxima);
+            
+            document.getElementById("resultado").innerHTML = `
+                <b>Mejor solución:</b> Llevar 
+                ${solucionGreedy.objetosSeleccionados.map(o => o.nombre).join(", ")} 
+                <br> ➡ Valor total: $${solucionGreedy.valorTotal} (Peso total: ${solucionGreedy.pesoTotal}kg, sin superar los 10 kg).
+            `;
+        }
+
+        let objetos = [];
+        const capacidadMochila = 10;
+
+        function agregarObjeto() {
+            let nombre = document.getElementById("nombreObjeto").value;
+            let valor = parseFloat(document.getElementById("valorObjeto").value);
+            let peso = parseFloat(document.getElementById("pesoObjeto").value);
+            
+            if (nombre === "" || isNaN(valor) || isNaN(peso) || valor <= 0 || peso <= 0) {
+                alert("Por favor, complete todos los campos correctamente.");
+                return;
+            }
+            
+            objetos.push({ nombre, valor, peso, ratio: valor / peso });
+            
+            let tabla = document.getElementById("tablaObjetos");
+            let fila = tabla.insertRow();
+            fila.insertCell(0).innerText = nombre;
+            fila.insertCell(1).innerText = valor;
+            fila.insertCell(2).innerText = peso;
+            
+            document.getElementById("nombreObjeto").value = "";
+            document.getElementById("valorObjeto").value = "";
+            document.getElementById("pesoObjeto").value = "";
+        }
+
+        function calcularMejorCombinacion() {
+            let pesoTotal = 0;
+            let valorTotal = 0;
+            let seleccionados = [];
+            
+            objetos.sort((a, b) => b.ratio - a.ratio);
+            
+            for (let obj of objetos) {
+                if (pesoTotal + obj.peso <= capacidadMochila) {
+                    seleccionados.push(obj.nombre);
+                    pesoTotal += obj.peso;
+                    valorTotal += obj.valor;
+                }
+            }
+            
+            let resultadoTexto = `<strong>Mejor solución:</strong> Llevar ${seleccionados.join(", ")}<br>
+                → Valor total: $${valorTotal} (Peso total: ${pesoTotal}kg, sin superar los ${capacidadMochila} kg).`;
+            document.getElementById("resultado2").innerHTML = resultadoTexto;
+        }
+    </script>
+
+</body>
+</html>
