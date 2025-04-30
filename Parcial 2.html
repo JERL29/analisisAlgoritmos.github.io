@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Algoritmos Genéticos Interactivos</title>
-    <script defer src="https://pyscript.net/latest/pyscript.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <style>
         .grafico-container {
             width: 100%;
@@ -495,8 +495,939 @@
         <div id="resultado-ruta" class="resultado"></div>
     </div>
 
-    <py-config>
-       
-    </py-config>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Función auxiliar para obtener un número aleatorio en un rango
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
 
-    <py-script>
+        // Función auxiliar para obtener un número aleatorio decimal en un rango
+        function getRandomFloat(min, max) {
+            return Math.random() * (max - min) + min;
+        }
+
+        // Función para verificar si un número es primo
+        function esPrimo(num) {
+            if (num <= 1) return false;
+            if (num <= 3) return true;
+            if (num % 2 === 0 || num % 3 === 0) return false;
+            let i = 5;
+            while (i * i <= num) {
+                if (num % i === 0 || num % (i + 2) === 0) return false;
+                i += 6;
+            }
+            return true;
+        }
+
+        // Función para encontrar el número primo más cercano
+        function encontrarPrimoCercano(num) {
+            if (esPrimo(num)) return num;
+            
+            let menor = num - 1;
+            while (menor >= 2 && !esPrimo(menor)) {
+                menor--;
+            }
+            
+            let mayor = num + 1;
+            while (!esPrimo(mayor)) {
+                mayor++;
+            }
+            
+            return (num - menor <= mayor - num) ? menor : mayor;
+        }
+
+        // Función para simular un algoritmo genético básico
+        function simularAlgoritmoGenetico(generaciones, poblacion, funcionFitness, rangoMin, rangoMax) {
+            let mejorIndividuo = null;
+            let mejorFitness = Infinity;
+            let historial = [];
+            
+            // Generar población inicial
+            let poblacionActual = [];
+            for (let i = 0; i < poblacion; i++) {
+                poblacionActual.push(getRandomFloat(rangoMin, rangoMax));
+            }
+            
+            // Evolucionar por generaciones
+            for (let gen = 0; gen < generaciones; gen++) {
+                // Evaluar fitness
+                let fitness = poblacionActual.map(individuo => funcionFitness(individuo));
+                
+                // Encontrar el mejor individuo de esta generación
+                let mejorFitnessGen = Math.min(...fitness);
+                let mejorIndividuoGen = poblacionActual[fitness.indexOf(mejorFitnessGen)];
+                
+                // Actualizar el mejor global
+                if (mejorFitnessGen < mejorFitness) {
+                    mejorFitness = mejorFitnessGen;
+                    mejorIndividuo = mejorIndividuoGen;
+                }
+                
+                historial.push({
+                    generacion: gen,
+                    mejorFitness: mejorFitnessGen,
+                    mejorIndividuo: mejorIndividuoGen
+                });
+                
+                // Selección (torneo simple)
+                let nuevaPoblacion = [];
+                for (let i = 0; i < poblacion; i++) {
+                    // Seleccionar 2 individuos al azar
+                    let idx1 = getRandomInt(0, poblacion - 1);
+                    let idx2 = getRandomInt(0, poblacion - 1);
+                    
+                    // El mejor de los dos pasa a la siguiente generación
+                    let ganador = fitness[idx1] < fitness[idx2] ? 
+                        poblacionActual[idx1] : poblacionActual[idx2];
+                    nuevaPoblacion.push(ganador);
+                }
+                
+                // Mutación (pequeña perturbación)
+                poblacionActual = nuevaPoblacion.map(individuo => {
+                    if (Math.random() < 0.1) { // 10% de probabilidad de mutación
+                        return individuo + getRandomFloat(-0.5, 0.5);
+                    }
+                    return individuo;
+                });
+            }
+            
+            return { mejorIndividuo, mejorFitness, historial };
+        }
+
+        // Función para crear un gráfico con Plotly
+        function crearGrafico(contenedorId, titulo, historial) {
+            const generaciones = historial.map(item => item.generacion);
+            const fitness = historial.map(item => item.mejorFitness);
+            
+            const trace = {
+                x: generaciones,
+                y: fitness,
+                type: 'scatter',
+                mode: 'lines+markers',
+                name: 'Mejor Fitness'
+            };
+            
+            const layout = {
+                title: titulo,
+                xaxis: { title: 'Generación' },
+                yaxis: { title: 'Fitness' }
+            };
+            
+            Plotly.newPlot(contenedorId, [trace], layout);
+        }
+
+        // Ejercicio 1: Optimización de función cuadrática
+        document.getElementById('btn-ej1').addEventListener('click', function() {
+            const generaciones = parseInt(document.getElementById('gen1').value);
+            const poblacion = parseInt(document.getElementById('pop1').value);
+            
+            // Función de fitness: queremos minimizar x²
+            const funcionFitness = x => x * x;
+            
+            // Ejecutar algoritmo genético
+            const resultado = simularAlgoritmoGenetico(generaciones, poblacion, funcionFitness, -10, 10);
+            
+            // Mostrar resultados
+            document.getElementById('resultado-ej1').innerHTML = `
+                Mejor solución encontrada: x = ${resultado.mejorIndividuo.toFixed(4)}<br>
+                Valor mínimo encontrado: f(x) = ${resultado.mejorFitness.toFixed(4)}
+            `;
+            
+            // Crear gráfico
+            crearGrafico('grafico-ej1', 'Evolución del Fitness (f(x) = x²)', resultado.historial);
+        });
+
+        // Ejercicio 2: Maximización de función lineal
+        document.getElementById('btn-ej2').addEventListener('click', function() {
+            const generaciones = parseInt(document.getElementById('gen2').value);
+            const poblacion = parseInt(document.getElementById('pop2').value);
+            
+            // Función de fitness: queremos maximizar 5x + 3 (que es lo mismo que minimizar -(5x + 3))
+            const funcionFitness = x => -(5 * x + 3);
+            
+            // Ejecutar algoritmo genético
+            const resultado = simularAlgoritmoGenetico(generaciones, poblacion, funcionFitness, -10, 10);
+            
+            // Mostrar resultados (convertimos de vuelta el fitness)
+            document.getElementById('resultado-ej2').innerHTML = `
+                Mejor solución encontrada: x = ${resultado.mejorIndividuo.toFixed(4)}<br>
+                Valor máximo encontrado: f(x) = ${(-resultado.mejorFitness).toFixed(4)}
+            `;
+            
+            // Crear gráfico (ajustamos el fitness para mostrar valores positivos)
+            const historialAjustado = resultado.historial.map(item => ({
+                ...item,
+                mejorFitness: -item.mejorFitness
+            }));
+            crearGrafico('grafico-ej2', 'Evolución del Fitness (f(x) = 5x + 3)', historialAjustado);
+        });
+
+        // Ejercicio 3: Optimización de la Función de Ackley
+        document.getElementById('ejecutar-ackley').addEventListener('click', function() {
+            const numIndividuos = parseInt(document.getElementById('num-individuos').value);
+            const generaciones = parseInt(document.getElementById('generaciones').value);
+            const tasaMutacion = parseFloat(document.getElementById('tasa-mutacion').value);
+            
+            // Función de Ackley (versión simplificada para 1D)
+            const ackley = x => {
+                const term1 = -0.2 * Math.sqrt(x*x);
+                const term2 = Math.cos(2 * Math.PI * x);
+                return -20 * Math.exp(term1) - Math.exp(term2) + 20 + Math.E;
+            };
+            
+            // Función de fitness
+            const funcionFitness = ackley;
+            
+            // Ejecutar algoritmo genético
+            const resultado = simularAlgoritmoGenetico(generaciones, numIndividuos, funcionFitness, -5, 5);
+            
+            // Mostrar resultados
+            document.getElementById('resultado-ackley').innerHTML = `
+                Mejor solución encontrada: x = ${resultado.mejorIndividuo.toFixed(4)}<br>
+                Valor mínimo encontrado: f(x) = ${resultado.mejorFitness.toFixed(4)}
+            `;
+            
+            // Crear gráfico
+            crearGrafico('grafico-ackley', 'Evolución del Fitness (Función de Ackley)', resultado.historial);
+        });
+
+        // Ejercicio 4: Algoritmo Genético para Número Primo Más Cercano
+        document.getElementById('ejecutar-primo').addEventListener('click', function() {
+            const numero = parseInt(document.getElementById('numero').value);
+            
+            // Encontrar el primo más cercano (versión simplificada sin AG)
+            const primo = encontrarPrimoCercano(numero);
+            
+            // Mostrar resultados
+            document.getElementById('resultado-primo').innerHTML = `
+                Número ingresado: ${numero}<br>
+                Número primo más cercano: ${primo}
+            `;
+        });
+
+        // Ejercicio 5: Problema del Cambio de Monedas
+        document.getElementById('ejecutar-monedas').addEventListener('click', function() {
+            const monto = parseInt(document.getElementById('monto').value);
+            
+            // Denominaciones de monedas
+            const monedas = [50, 20, 10, 5, 2, 1];
+            let cambio = {};
+            let resto = monto;
+            
+            // Algoritmo voraz para el cambio
+            monedas.forEach(moneda => {
+                if (resto >= moneda) {
+                    const cantidad = Math.floor(resto / moneda);
+                    cambio[moneda] = cantidad;
+                    resto = resto % moneda;
+                }
+            });
+            
+            // Formatear el resultado
+            let resultadoStr = `Cambio para $${monto}:<br><ul>`;
+            for (const [moneda, cantidad] of Object.entries(cambio)) {
+                resultadoStr += `<li>${cantidad} moneda(s) de $${moneda}</li>`;
+            }
+            resultadoStr += `</ul>`;
+            
+            // Mostrar resultados
+            document.getElementById('resultado-monedas').innerHTML = resultadoStr;
+        });
+
+        // Ejercicio 6: Problema del Viajante (TSP)
+        document.getElementById('ejecutar-tsp').addEventListener('click', function() {
+            const numCiudades = parseInt(document.getElementById('num-ciudades').value);
+            const poblacion = parseInt(document.getElementById('pob-tsp').value);
+            const generaciones = parseInt(document.getElementById('gen-tsp').value);
+            
+            // Generar ciudades aleatorias
+            const ciudades = [];
+            for (let i = 0; i < numCiudades; i++) {
+                ciudades.push({
+                    id: i,
+                    x: getRandomInt(0, 100),
+                    y: getRandomInt(0, 100)
+                });
+            }
+            
+            // Función para calcular la distancia entre dos ciudades
+            function distancia(ciudadA, ciudadB) {
+                const dx = ciudadA.x - ciudadB.x;
+                const dy = ciudadA.y - ciudadB.y;
+                return Math.sqrt(dx*dx + dy*dy);
+            }
+            
+            // Función para calcular la distancia total de una ruta
+            function distanciaTotal(ruta) {
+                let total = 0;
+                for (let i = 0; i < ruta.length - 1; i++) {
+                    total += distancia(ruta[i], ruta[i+1]);
+                }
+                // Volver al punto de inicio
+                total += distancia(ruta[ruta.length-1], ruta[0]);
+                return total;
+            }
+            
+            // Función de fitness (queremos minimizar la distancia)
+            function fitness(ruta) {
+                return distanciaTotal(ruta);
+            }
+            
+            // Generar una ruta aleatoria
+            function rutaAleatoria() {
+                const ruta = [...ciudades];
+                // Algoritmo de Fisher-Yates para mezclar
+                for (let i = ruta.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [ruta[i], ruta[j]] = [ruta[j], ruta[i]];
+                }
+                return ruta;
+            }
+            
+            // Operador de cruce (OX)
+            function cruzar(padre1, padre2) {
+                const size = padre1.length;
+                const hijo = new Array(size);
+                
+                // Seleccionar un segmento del padre1
+                const start = getRandomInt(0, size - 1);
+                const end = getRandomInt(start + 1, size);
+                
+                // Copiar el segmento al hijo
+                for (let i = start; i < end; i++) {
+                    hijo[i] = padre1[i];
+                }
+                
+                // Completar con las ciudades del padre2 en orden
+                let posHijo = 0;
+                for (let i = 0; i < size; i++) {
+                    if (posHijo === start) posHijo = end;
+                    if (!hijo.includes(padre2[i])) {
+                        hijo[posHijo] = padre2[i];
+                        posHijo++;
+                    }
+                }
+                
+                return hijo;
+            }
+            
+            // Operador de mutación (swap)
+            function mutar(ruta) {
+                const i = getRandomInt(0, ruta.length - 1);
+                const j = getRandomInt(0, ruta.length - 1);
+                [ruta[i], ruta[j]] = [ruta[j], ruta[i]];
+                return ruta;
+            }
+            
+            // Algoritmo genético para TSP
+            let mejorRuta = null;
+            let mejorDistancia = Infinity;
+            let historial = [];
+            
+            // Generar población inicial
+            let poblacionActual = [];
+            for (let i = 0; i < poblacion; i++) {
+                poblacionActual.push(rutaAleatoria());
+            }
+            
+            // Evolucionar
+            for (let gen = 0; gen < generaciones; gen++) {
+                // Evaluar fitness
+                const distancias = poblacionActual.map(ruta => distanciaTotal(ruta));
+                
+                // Encontrar la mejor ruta de esta generación
+                const mejorDistanciaGen = Math.min(...distancias);
+                const mejorRutaGen = poblacionActual[distancias.indexOf(mejorDistanciaGen)];
+                
+                // Actualizar la mejor global
+                if (mejorDistanciaGen < mejorDistancia) {
+                    mejorDistancia = mejorDistanciaGen;
+                    mejorRuta = [...mejorRutaGen];
+                }
+                
+                historial.push({
+                    generacion: gen,
+                    mejorDistancia: mejorDistanciaGen
+                });
+                
+                // Selección (torneo)
+                const nuevaPoblacion = [];
+                for (let i = 0; i < poblacion; i++) {
+                    // Seleccionar 2 individuos al azar
+                    const idx1 = getRandomInt(0, poblacion - 1);
+                    const idx2 = getRandomInt(0, poblacion - 1);
+                    
+                    // El mejor de los dos pasa a la siguiente generación
+                    const ganador = distancias[idx1] < distancias[idx2] ? 
+                        [...poblacionActual[idx1]] : [...poblacionActual[idx2]];
+                    nuevaPoblacion.push(ganador);
+                }
+                
+                // Cruce y mutación
+                poblacionActual = [];
+                for (let i = 0; i < poblacion; i += 2) {
+                    if (i + 1 < poblacion) {
+                        const hijo1 = cruzar(nuevaPoblacion[i], nuevaPoblacion[i+1]);
+                        const hijo2 = cruzar(nuevaPoblacion[i+1], nuevaPoblacion[i]);
+                        
+                        // Mutar con cierta probabilidad
+                        if (Math.random() < 0.1) mutar(hijo1);
+                        if (Math.random() < 0.1) mutar(hijo2);
+                        
+                        poblacionActual.push(hijo1, hijo2);
+                    } else {
+                        poblacionActual.push(nuevaPoblacion[i]);
+                    }
+                }
+            }
+            
+            // Mostrar resultados
+            document.getElementById('resultado-tsp').innerHTML = `
+                Mejor ruta encontrada con distancia total: ${mejorDistancia.toFixed(2)}<br>
+                Ruta: ${mejorRuta.map(ciudad => ciudad.id).join(' → ')} → ${mejorRuta[0].id}
+            `;
+            
+            // Crear gráfico de la ruta
+            const x = [...mejorRuta.map(ciudad => ciudad.x), mejorRuta[0].x];
+            const y = [...mejorRuta.map(ciudad => ciudad.y), mejorRuta[0].y];
+            
+            const trace = {
+                x: x,
+                y: y,
+                type: 'scatter',
+                mode: 'lines+markers+text',
+                text: [...mejorRuta.map(ciudad => ciudad.id), mejorRuta[0].id],
+                textposition: 'top center',
+                name: 'Ruta'
+            };
+            
+            const layout = {
+                title: 'Mejor Ruta Encontrada',
+                xaxis: { title: 'Coordenada X' },
+                yaxis: { title: 'Coordenada Y' },
+                showlegend: false
+            };
+            
+            Plotly.newPlot('grafico-tsp', [trace], layout);
+            
+            // Crear gráfico de evolución
+            const generacionesData = historial.map(item => item.generacion);
+            const distanciasData = historial.map(item => item.mejorDistancia);
+            
+            const traceEvolucion = {
+                x: generacionesData,
+                y: distanciasData,
+                type: 'scatter',
+                mode: 'lines+markers',
+                name: 'Mejor Distancia'
+            };
+            
+            const layoutEvolucion = {
+                title: 'Evolución de la Distancia',
+                xaxis: { title: 'Generación' },
+                yaxis: { title: 'Distancia' }
+            };
+            
+            // Si ya existe un gráfico en el contenedor, actualizarlo
+            if (document.getElementById('grafico-tsp').data) {
+                Plotly.react('grafico-tsp', [trace, traceEvolucion], layout);
+            } else {
+                Plotly.newPlot('grafico-tsp', [trace, traceEvolucion], layout);
+            }
+        });
+
+        // Ejercicio 10: Optimización de Red Eléctrica
+        document.getElementById('ejecutar-red').addEventListener('click', function() {
+            const numNodos = parseInt(document.getElementById('num-nodos').value);
+            const pobRed = parseInt(document.getElementById('pob-red').value);
+            const genRed = parseInt(document.getElementById('gen-red').value);
+            
+            // Simulación simplificada de optimización de red eléctrica
+            // Suponemos que queremos minimizar las pérdidas de energía
+            // que dependen de la configuración de la red
+            
+            // Función de fitness ficticia (simula pérdidas en la red)
+            function calcularPerdidas(configuracion) {
+                // configuracion es un array que representa parámetros de la red
+                let perdidas = 0;
+                for (let i = 0; i < configuracion.length; i++) {
+                    perdidas += Math.abs(configuracion[i] - i) / (i + 1);
+                }
+                return perdidas;
+            }
+            
+            // Generar una configuración aleatoria
+            function configuracionAleatoria() {
+                const config = [];
+                for (let i = 0; i < numNodos; i++) {
+                    config.push(getRandomFloat(0, numNodos));
+                }
+                return config;
+            }
+            
+            // Operador de cruce
+            function cruzarConfiguraciones(conf1, conf2) {
+                const puntoCruce = getRandomInt(1, numNodos - 2);
+                const hijo = [
+                    ...conf1.slice(0, puntoCruce),
+                    ...conf2.slice(puntoCruce)
+                ];
+                return hijo;
+            }
+            
+            // Operador de mutación
+            function mutarConfiguracion(config) {
+                const idx = getRandomInt(0, numNodos - 1);
+                config[idx] = getRandomFloat(0, numNodos);
+                return config;
+            }
+            
+            // Algoritmo genético
+            let mejorConfiguracion = null;
+            let mejorPerdida = Infinity;
+            let historial = [];
+            
+            // Población inicial
+            let poblacion = [];
+            for (let i = 0; i < pobRed; i++) {
+                poblacion.push(configuracionAleatoria());
+            }
+            
+            // Evolución
+            for (let gen = 0; gen < genRed; gen++) {
+                // Evaluar fitness
+                const perdidas = poblacion.map(conf => calcularPerdidas(conf));
+                
+                // Encontrar la mejor configuración de esta generación
+                const mejorPerdidaGen = Math.min(...perdidas);
+                const mejorConfiguracionGen = poblacion[perdidas.indexOf(mejorPerdidaGen)];
+                
+                // Actualizar la mejor global
+                if (mejorPerdidaGen < mejorPerdida) {
+                    mejorPerdida = mejorPerdidaGen;
+                    mejorConfiguracion = [...mejorConfiguracionGen];
+                }
+                
+                historial.push({
+                    generacion: gen,
+                    mejorPerdida: mejorPerdidaGen
+                });
+                
+                // Selección (torneo)
+                const nuevaPoblacion = [];
+                for (let i = 0; i < pobRed; i++) {
+                    const idx1 = getRandomInt(0, pobRed - 1);
+                    const idx2 = getRandomInt(0, pobRed - 1);
+                    
+                    const ganador = perdidas[idx1] < perdidas[idx2] ? 
+                        [...poblacion[idx1]] : [...poblacion[idx2]];
+                    nuevaPoblacion.push(ganador);
+                }
+                
+                // Cruce y mutación
+                poblacion = [];
+                for (let i = 0; i < pobRed; i += 2) {
+                    if (i + 1 < pobRed) {
+                        const hijo1 = cruzarConfiguraciones(nuevaPoblacion[i], nuevaPoblacion[i+1]);
+                        const hijo2 = cruzarConfiguraciones(nuevaPoblacion[i+1], nuevaPoblacion[i]);
+                        
+                        if (Math.random() < 0.1) mutarConfiguracion(hijo1);
+                        if (Math.random() < 0.1) mutarConfiguracion(hijo2);
+                        
+                        poblacion.push(hijo1, hijo2);
+                    } else {
+                        poblacion.push(nuevaPoblacion[i]);
+                    }
+                }
+            }
+            
+            // Mostrar resultados
+            document.getElementById('resultado-red').innerHTML = `
+                Mejor configuración encontrada:<br>
+                ${mejorConfiguracion.map((val, idx) => `Nodo ${idx}: ${val.toFixed(2)}`).join('<br>')}<br>
+                Pérdidas estimadas: ${mejorPerdida.toFixed(4)}
+            `;
+            
+            // Crear gráfico de evolución
+            crearGrafico('grafico-red', 'Evolución de las Pérdidas en la Red', historial);
+        });
+
+        // Ejercicio 11: Optimización de la Arquitectura de una Red Neuronal
+        document.getElementById('ejecutar-red-neuronal').addEventListener('click', function() {
+            const pobRedNeuronal = parseInt(document.getElementById('pob-red-neuronal').value);
+            const genRedNeuronal = parseInt(document.getElementById('gen-red-neuronal').value);
+            const mutRedNeuronal = parseFloat(document.getElementById('mut-red-neuronal').value);
+            
+            // Simulación simplificada de optimización de arquitectura de red neuronal
+            // Vamos a optimizar: número de capas ocultas y neuronas por capa
+            
+            // Función de fitness ficticia (simula precisión de la red)
+            function evaluarArquitectura(arquitectura) {
+                // arquitectura es un objeto {capas: número, neuronas: número}
+                const complejidad = arquitectura.capas * arquitectura.neuronas;
+                
+                // Simulamos que hay un punto óptimo de complejidad
+                const optimo = 50;
+                const diferencia = Math.abs(complejidad - optimo);
+                
+                // Precisión simulada (mayor es mejor)
+                const precision = 100 - diferencia;
+                
+                // Queremos maximizar la precisión, pero nuestro algoritmo minimiza
+                return -precision;
+            }
+            
+            // Generar una arquitectura aleatoria
+            function arquitecturaAleatoria() {
+                return {
+                    capas: getRandomInt(1, 5),
+                    neuronas: getRandomInt(5, 30)
+                };
+            }
+            
+            // Operador de cruce
+            function cruzarArquitecturas(arq1, arq2) {
+                return {
+                    capas: Math.round((arq1.capas + arq2.capas) / 2),
+                    neuronas: Math.round((arq1.neuronas + arq2.neuronas) / 2)
+                };
+            }
+            
+            // Operador de mutación
+            function mutarArquitectura(arquitectura) {
+                if (Math.random() < 0.5) {
+                    arquitectura.capas = getRandomInt(1, 5);
+                } else {
+                    arquitectura.neuronas = getRandomInt(5, 30);
+                }
+                return arquitectura;
+            }
+            
+            // Algoritmo genético
+            let mejorArquitectura = null;
+            let mejorPrecision = -Infinity;
+            let historial = [];
+            
+            // Población inicial
+            let poblacion = [];
+            for (let i = 0; i < pobRedNeuronal; i++) {
+                poblacion.push(arquitecturaAleatoria());
+            }
+            
+            // Evolución
+            for (let gen = 0; gen < genRedNeuronal; gen++) {
+                // Evaluar fitness
+                const precisiones = poblacion.map(arq => evaluarArquitectura(arq));
+                
+                // Encontrar la mejor arquitectura de esta generación
+                const mejorPrecisionGen = Math.min(...precisiones);
+                const mejorArquitecturaGen = poblacion[precisiones.indexOf(mejorPrecisionGen)];
+                
+                // Actualizar la mejor global (convertimos a positivo para interpretación)
+                if (-mejorPrecisionGen > -mejorPrecision) {
+                    mejorPrecision = mejorPrecisionGen;
+                    mejorArquitectura = {...mejorArquitecturaGen};
+                }
+                
+                historial.push({
+                    generacion: gen,
+                    mejorPrecision: -mejorPrecisionGen, // Convertimos a positivo
+                    arquitectura: mejorArquitecturaGen
+                });
+                
+                // Selección (torneo)
+                const nuevaPoblacion = [];
+                for (let i = 0; i < pobRedNeuronal; i++) {
+                    const idx1 = getRandomInt(0, pobRedNeuronal - 1);
+                    const idx2 = getRandomInt(0, pobRedNeuronal - 1);
+                    
+                    const ganador = precisiones[idx1] < precisiones[idx2] ? 
+                        {...poblacion[idx1]} : {...poblacion[idx2]};
+                    nuevaPoblacion.push(ganador);
+                }
+                
+                // Cruce y mutación
+                poblacion = [];
+                for (let i = 0; i < pobRedNeuronal; i += 2) {
+                    if (i + 1 < pobRedNeuronal) {
+                        const hijo1 = cruzarArquitecturas(nuevaPoblacion[i], nuevaPoblacion[i+1]);
+                        const hijo2 = cruzarArquitecturas(nuevaPoblacion[i+1], nuevaPoblacion[i]);
+                        
+                        if (Math.random() < mutRedNeuronal) mutarArquitectura(hijo1);
+                        if (Math.random() < mutRedNeuronal) mutarArquitectura(hijo2);
+                        
+                        poblacion.push(hijo1, hijo2);
+                    } else {
+                        poblacion.push(nuevaPoblacion[i]);
+                    }
+                }
+            }
+            
+            // Mostrar resultados
+            document.getElementById('resultado-red-neuronal').innerHTML = `
+                Mejor arquitectura encontrada:<br>
+                - Capas ocultas: ${mejorArquitectura.capas}<br>
+                - Neuronas por capa: ${mejorArquitectura.neuronas}<br>
+                - Precisión estimada: ${-mejorPrecision.toFixed(2)}%<br>
+                - Complejidad total: ${mejorArquitectura.capas * mejorArquitectura.neuronas} neuronas
+            `;
+            
+            // Crear gráfico de evolución
+            const generaciones = historial.map(item => item.generacion);
+            const precisiones = historial.map(item => item.mejorPrecision);
+            
+            const trace = {
+                x: generaciones,
+                y: precisiones,
+                type: 'scatter',
+                mode: 'lines+markers',
+                name: 'Precisión'
+            };
+            
+            const layout = {
+                title: 'Evolución de la Precisión',
+                xaxis: { title: 'Generación' },
+                yaxis: { title: 'Precisión Estimada (%)' }
+            };
+            
+            Plotly.newPlot('grafico-red-neuronal', [trace], layout);
+        });
+
+        // Ejercicio 19: Optimización de Algoritmos de Búsqueda de Rutas en un Mapa
+        document.getElementById('ejecutar-ruta').addEventListener('click', function() {
+            const numCiudades = parseInt(document.getElementById('num-ciudades-ruta').value);
+            const pobRuta = parseInt(document.getElementById('pob-ruta').value);
+            const genRuta = parseInt(document.getElementById('gen-ruta').value);
+            
+            // Generar ciudades aleatorias
+            const ciudades = [];
+            for (let i = 0; i < numCiudades; i++) {
+                ciudades.push({
+                    id: i,
+                    x: getRandomInt(0, 100),
+                    y: getRandomInt(0, 100)
+                });
+            }
+            
+            // Función para calcular distancia entre ciudades
+            function distancia(ciudadA, ciudadB) {
+                const dx = ciudadA.x - ciudadB.x;
+                const dy = ciudadA.y - ciudadB.y;
+                return Math.sqrt(dx*dx + dy*dy);
+            }
+            
+            // Función para calcular distancia total de una ruta
+            function distanciaTotal(ruta) {
+                let total = 0;
+                for (let i = 0; i < ruta.length - 1; i++) {
+                    total += distancia(ruta[i], ruta[i+1]);
+                }
+                // Volver al inicio
+                total += distancia(ruta[ruta.length-1], ruta[0]);
+                return total;
+            }
+            
+            // Generar ruta aleatoria
+            function rutaAleatoria() {
+                const ruta = [...ciudades];
+                // Algoritmo de Fisher-Yates para mezclar
+                for (let i = ruta.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [ruta[i], ruta[j]] = [ruta[j], ruta[i]];
+                }
+                return ruta;
+            }
+            
+            // Operador de cruce (OX)
+            function cruzarRutas(padre1, padre2) {
+                const size = padre1.length;
+                const hijo = new Array(size);
+                
+                // Seleccionar un segmento del padre1
+                const start = getRandomInt(0, size - 1);
+                const end = getRandomInt(start + 1, size);
+                
+                // Copiar el segmento al hijo
+                for (let i = start; i < end; i++) {
+                    hijo[i] = padre1[i];
+                }
+                
+                // Completar con las ciudades del padre2 en orden
+                let posHijo = 0;
+                for (let i = 0; i < size; i++) {
+                    if (posHijo === start) posHijo = end;
+                    if (!hijo.includes(padre2[i])) {
+                        hijo[posHijo] = padre2[i];
+                        posHijo++;
+                    }
+                }
+                
+                return hijo;
+            }
+            
+            // Operador de mutación (swap)
+            function mutarRuta(ruta) {
+                const i = getRandomInt(0, ruta.length - 1);
+                const j = getRandomInt(0, ruta.length - 1);
+                [ruta[i], ruta[j]] = [ruta[j], ruta[i]];
+                return ruta;
+            }
+            
+            // Algoritmo genético
+            let mejorRuta = null;
+            let mejorDistancia = Infinity;
+            let historial = [];
+            
+            // Población inicial
+            let poblacion = [];
+            for (let i = 0; i < pobRuta; i++) {
+                poblacion.push(rutaAleatoria());
+            }
+            
+            // Evolución
+            for (let gen = 0; gen < genRuta; gen++) {
+                // Evaluar fitness
+                const distancias = poblacion.map(ruta => distanciaTotal(ruta));
+                
+                // Encontrar la mejor ruta de esta generación
+                const mejorDistanciaGen = Math.min(...distancias);
+                const mejorRutaGen = poblacion[distancias.indexOf(mejorDistanciaGen)];
+                
+                // Actualizar la mejor global
+                if (mejorDistanciaGen < mejorDistancia) {
+                    mejorDistancia = mejorDistanciaGen;
+                    mejorRuta = [...mejorRutaGen];
+                }
+                
+                historial.push({
+                    generacion: gen,
+                    mejorDistancia: mejorDistanciaGen
+                });
+                
+                // Selección (torneo)
+                const nuevaPoblacion = [];
+                for (let i = 0; i < pobRuta; i++) {
+                    const idx1 = getRandomInt(0, pobRuta - 1);
+                    const idx2 = getRandomInt(0, pobRuta - 1);
+                    
+                    const ganador = distancias[idx1] < distancias[idx2] ? 
+                        [...poblacion[idx1]] : [...poblacion[idx2]];
+                    nuevaPoblacion.push(ganador);
+                }
+                
+                // Cruce y mutación
+                poblacion = [];
+                for (let i = 0; i < pobRuta; i += 2) {
+                    if (i + 1 < pobRuta) {
+                        const hijo1 = cruzarRutas(nuevaPoblacion[i], nuevaPoblacion[i+1]);
+                        const hijo2 = cruzarRutas(nuevaPoblacion[i+1], nuevaPoblacion[i]);
+                        
+                        if (Math.random() < 0.1) mutarRuta(hijo1);
+                        if (Math.random() < 0.1) mutarRuta(hijo2);
+                        
+                        poblacion.push(hijo1, hijo2);
+                    } else {
+                        poblacion.push(nuevaPoblacion[i]);
+                    }
+                }
+            }
+            
+            // Mostrar resultados
+            document.getElementById('resultado-ruta').innerHTML = `
+                Mejor ruta encontrada con distancia total: ${mejorDistancia.toFixed(2)}<br>
+                Ruta: ${mejorRuta.map(ciudad => ciudad.id).join(' → ')} → ${mejorRuta[0].id}
+            `;
+            
+            // Crear gráfico de la ruta
+            const x = [...mejorRuta.map(ciudad => ciudad.x), mejorRuta[0].x];
+            const y = [...mejorRuta.map(ciudad => ciudad.y), mejorRuta[0].y];
+            const ids = [...mejorRuta.map(ciudad => ciudad.id), mejorRuta[0].id];
+            
+            const traceRuta = {
+                x: x,
+                y: y,
+                type: 'scatter',
+                mode: 'lines+markers+text',
+                text: ids,
+                textposition: 'top center',
+                name: 'Ruta'
+            };
+            
+            // Gráfico de evolución
+            const generacionesData = historial.map(item => item.generacion);
+            const distanciasData = historial.map(item => item.mejorDistancia);
+            
+            const traceEvolucion = {
+                x: generacionesData,
+                y: distanciasData,
+                type: 'scatter',
+                mode: 'lines+markers',
+                name: 'Mejor Distancia'
+            };
+            
+            const layout = {
+                title: 'Mejor Ruta Encontrada y Evolución',
+                xaxis: { title: 'Coordenada X' },
+                yaxis: { title: 'Coordenada Y' },
+                showlegend: true
+            };
+            
+            Plotly.newPlot('grafico-ruta', [traceRuta, traceEvolucion], layout);
+        });
+
+        // Inicializar todos los botones restantes con funciones básicas
+        const botones = [
+            'ejecutar-asignacion', 'ejecutar-caracteristicas', 
+            'ejecutar-puente', 'ejecutar-antena', 'ejecutar-pid',
+            'ejecutar-compresion', 'ejecutar-multiagente', 'ejecutar-circuito'
+        ];
+        
+        botones.forEach(id => {
+            document.getElementById(id).addEventListener('click', function() {
+                const ejercicio = id.replace('ejecutar-', '');
+                document.getElementById(`resultado-${ejercicio}`).innerHTML = `
+                    Simulación del ejercicio ${ejercicio} completada.<br>
+                    Esta es una implementación básica. Para una implementación completa, 
+                    se necesitaría desarrollar el algoritmo genético específico para este problema.
+                `;
+                
+                // Si hay un contenedor de gráfico, crear uno básico
+                if (document.getElementById(`grafico-${ejercicio}`)) {
+                    const trace = {
+                        x: [1, 2, 3, 4, 5],
+                        y: [10, 15, 13, 17, 10],
+                        type: 'scatter',
+                        name: 'Fitness'
+                    };
+                    
+                    const layout = {
+                        title: `Evolución del Fitness (Ejercicio ${ejercicio})`,
+                        xaxis: { title: 'Generación' },
+                        yaxis: { title: 'Fitness' }
+                    };
+                    
+                    Plotly.newPlot(`grafico-${ejercicio}`, [trace], layout);
+                }
+                
+                // Si es el ejercicio de asignación, crear una tabla básica
+                if (ejercicio === 'asignacion') {
+                    const numTareas = parseInt(document.getElementById('num-tareas').value) || 5;
+                    const numRecursos = parseInt(document.getElementById('num-recursos').value) || 3;
+                    
+                    let tablaHTML = '<table><tr><th>Tarea</th><th>Recurso Asignado</th><th>Tiempo Estimado</th></tr>';
+                    
+                    for (let i = 0; i < numTareas; i++) {
+                        const recurso = getRandomInt(1, numRecursos);
+                        const tiempo = getRandomInt(1, 10);
+                        tablaHTML += `<tr><td>${i+1}</td><td>${recurso}</td><td>${tiempo} horas</td></tr>`;
+                    }
+                    
+                    tablaHTML += '</table>';
+                    document.getElementById('tabla-asignacion').innerHTML = tablaHTML;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
