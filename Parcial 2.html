@@ -258,241 +258,29 @@
         <div id="grafico-caracteristicas" class="grafico-container"></div>
     </div>
 
-    <!-- Ejercicio 10: Optimización de una Red de Distribución de Energía -->
-    <div class="ejercicio">
-        <h2>Ejercicio 10: Optimización de Red Eléctrica</h2>
-        <p>Optimiza los parámetros de una red de distribución eléctrica para minimizar las pérdidas de energía.</p>
-        <div class="row parametros">
-            <div class="col-md-4 parametro-group">
-                <label for="num-nodos" class="form-label">Número de nodos:</label>
-                <input type="number" id="num-nodos" class="form-control" value="5" min="3" max="10">
+        <!-- Ejercicio 10: Optimización de una Red de Distribución de Energía -->
+        <div class="ejercicio">
+            <h2>Ejercicio 10: Optimización de Red Eléctrica</h2>
+            <p>Optimiza los parámetros de una red de distribución eléctrica para minimizar las pérdidas de energía.</p>
+            <div class="row parametros">
+                <div class="col-md-4 parametro-group">
+                    <label for="num-nodos" class="form-label">Número de nodos:</label>
+                    <input type="number" id="num-nodos" class="form-control" value="5" min="3" max="10">
+                </div>
+                <div class="col-md-4 parametro-group">
+                    <label for="pob-red" class="form-label">Población:</label>
+                    <input type="number" id="pob-red" class="form-control" value="50" min="10">
+                </div>
+                <div class="col-md-4 parametro-group">
+                    <label for="gen-red" class="form-label">Generaciones:</label>
+                    <input type="number" id="gen-red" class="form-control" value="100" min="10">
+                </div>
             </div>
-            <div class="col-md-4 parametro-group">
-                <label for="pob-red" class="form-label">Población:</label>
-                <input type="number" id="pob-red" class="form-control" value="50" min="10">
-            </div>
-            <div class="col-md-4 parametro-group">
-                <label for="gen-red" class="form-label">Generaciones:</label>
-                <input type="number" id="gen-red" class="form-control" value="100" min="10">
-            </div>
+            <button id="ejecutar-red" class="btn btn-custom">Optimizar Red</button>
+            <div id="resultado-red" class="resultado"></div>
+            <div id="grafico-red" class="grafico-container"></div>
         </div>
-        <button id="ejecutar-red" class="btn btn-custom">Optimizar Red</button>
-        <div id="resultado-red" class="resultado"></div>
-        <div id="grafico-red" class="grafico-container"></div>
-    </div>
-
-    <!-- Ejercicio 11: Optimización de la Arquitectura de una Red Neuronal -->
-    <div class="ejercicio">
-        <h2>Ejercicio 11: Optimización de la Arquitectura de una Red Neuronal</h2>
-        <p>Usa un algoritmo genético para optimizar los parámetros de una red neuronal, como el número de capas y neuronas en cada capa.</p>
-        
-        <div class="row parametros">
-            <div class="col-md-4 parametro-group">
-                <label for="pob-red-neuronal" class="form-label">Población:</label>
-                <input type="number" id="pob-red-neuronal" class="form-control" value="50" min="10">
-            </div>
-            <div class="col-md-4 parametro-group">
-                <label for="gen-red-neuronal" class="form-label">Generaciones:</label>
-                <input type="number" id="gen-red-neuronal" class="form-control" value="100" min="10">
-            </div>
-            <div class="col-md-4 parametro-group">
-                <label for="mut-red-neuronal" class="form-label">Tasa de mutación:</label>
-                <input type="number" id="mut-red-neuronal" class="form-control" value="0.1" min="0" max="1" step="0.01">
-            </div>
-        </div>
-        
-        <button id="ejecutar-red-neuronal" class="btn btn-custom">Optimizar Red Neuronal</button>
-        <div id="resultado-red-neuronal" class="resultado"></div>
-    </div>
-
-    <!-- Ejercicio 12: Problema de planificación de rutas para vehículos -->
-    <div class="ejercicio">
-        <h2>Ejercicio 12: Problema de Planificación de Rutas para Vehículos</h2>
-        <p>Resuelve el problema de planificación de rutas de vehículos para entregar mercancías en una ciudad, utilizando AGs para minimizar el tiempo total de viaje.</p>
-        
-        <div class="row parametros">
-            <div class="col-md-4 parametro-group">
-                <label for="num-puntos" class="form-label">Número de puntos de entrega:</label>
-                <input type="number" id="num-puntos" class="form-control" value="5" min="3" max="10">
-            </div>
-            <div class="col-md-4 parametro-group">
-                <label for="pob-rutas" class="form-label">Población:</label>
-                <input type="number" id="pob-rutas" class="form-control" value="50" min="10">
-            </div>
-            <div class="col-md-4 parametro-group">
-                <label for="gen-rutas" class="form-label">Generaciones:</label>
-                <input type="number" id="gen-rutas" class="form-control" value="100" min="10">
-            </div>
-        </div>
-        
-        <button id="ejecutar-rutas" class="btn btn-custom">Optimizar Rutas</button>
-        <div id="grafico-rutas" class="grafico-container"></div>
-        <div id="resultado-rutas" class="resultado"></div>
-    </div>
-
-    <!-- Ejercicio 13: Evolución de Estrategias en un Juego de Simulación -->
-    <div class="ejercicio">
-        <h2>Ejercicio 13: Evolución de Estrategias en un Juego de Simulación</h2>
-        <p>Usa AGs para desarrollar una estrategia óptima en un juego de simulación.</p>
-        
-        <div class="row parametros">
-            <div class="col-md-4 parametro-group">
-                <label for="pob-juego" class="form-label">Población:</label>
-                <input type="number" id="pob-juego" class="form-control" value="20" min="10">
-            </div>
-            <div class="col-md-4 parametro-group">
-                <label for="gen-juego" class="form-label">Generaciones:</label>
-                <input type="number" id="gen-juego" class="form-control" value="50" min="10">
-            </div>
-        </div>
-        
-        <button id="ejecutar-juego" class="btn btn-custom">Evolucionar Estrategia</button>
-        <div id="resultado-juego" class="resultado"></div>
-    </div>
-
-    <!-- Ejercicio 14: Diseño de una Antena para Maximizar la Eficiencia -->
-    <div class="ejercicio">
-        <h2>Ejercicio 14: Diseño de una Antena para Maximizar la Eficiencia</h2>
-        <p>Usa un AG para encontrar el diseño de una antena que maximice la eficiencia en la transmisión de señales.</p>
-        
-        <div class="row parametros">
-            <div class="col-md-4 parametro-group">
-                <label for="pob-antena" class="form-label">Población:</label>
-                <input type="number" id="pob-antena" class="form-control" value="20" min="10">
-            </div>
-            <div class="col-md-4 parametro-group">
-                <label for="gen-antena" class="form-label">Generaciones:</label>
-                <input type="number" id="gen-antena" class="form-control" value="50" min="10">
-            </div>
-            <div class="col-md-4 parametro-group">
-                <label for="mut-antena" class="form-label">Tasa de mutación:</label>
-                <input type="number" id="mut-antena" class="form-control" value="0.1" min="0" max="1" step="0.01">
-            </div>
-        </div>
-        
-        <button id="ejecutar-antena" class="btn btn-custom">Optimizar Antena</button>
-        <div id="resultado-antena" class="resultado"></div>
-    </div>
-
-    <!-- Ejercicio 15: Optimización de Parámetros en un Sistema de Control Automático -->
-    <div class="ejercicio">
-        <h2>Ejercicio 15: Optimización de Parámetros en un Sistema de Control Automático</h2>
-        <p>Optimiza los parámetros de un controlador PID para minimizar el error en un sistema dinámico utilizando un AG.</p>
-        
-        <div class="row parametros">
-            <div class="col-md-4 parametro-group">
-                <label for="pob-pid" class="form-label">Población:</label>
-                <input type="number" id="pob-pid" class="form-control" value="20" min="10">
-            </div>
-            <div class="col-md-4 parametro-group">
-                <label for="gen-pid" class="form-label">Generaciones:</label>
-                <input type="number" id="gen-pid" class="form-control" value="50" min="10">
-            </div>
-            <div class="col-md-4 parametro-group">
-                <label for="mut-pid" class="form-label">Tasa de mutación:</label>
-                <input type="number" id="mut-pid" class="form-control" value="0.1" min="0" max="1" step="0.01">
-            </div>
-        </div>
-        
-        <button id="ejecutar-pid" class="btn btn-custom">Optimizar PID</button>
-        <div id="resultado-pid" class="resultado"></div>
-    </div>
-
-    <!-- Ejercicio 16: Evolución de Algoritmos de Compresión de Imágenes -->
-    <div class="ejercicio">
-        <h2>Ejercicio 16: Evolución de Algoritmos de Compresión de Imágenes</h2>
-        <p>Usa AGs para evolucionar un algoritmo que comprima imágenes manteniendo la mayor calidad posible.</p>
-        
-        <div class="row parametros">
-            <div class="col-md-4 parametro-group">
-                <label for="pob-compresion" class="form-label">Población:</label>
-                <input type="number" id="pob-compresion" class="form-control" value="20" min="10">
-            </div>
-            <div class="col-md-4 parametro-group">
-                <label for="gen-compresion" class="form-label">Generaciones:</label>
-                <input type="number" id="gen-compresion" class="form-control" value="50" min="10">
-            </div>
-            <div class="col-md-4 parametro-group">
-                <label for="mut-compresion" class="form-label">Tasa de mutación:</label>
-                <input type="number" id="mut-compresion" class="form-control" value="0.1" min="0" max="1" step="0.01">
-            </div>
-        </div>
-        
-        <button id="ejecutar-compresion" class="btn btn-custom">Optimizar Compresión</button>
-        <div id="resultado-compresion" class="resultado"></div>
-    </div>
-
-    <!-- Ejercicio 17: Evolución de Soluciones para un Problema de Optimización en un Sistema Multiagente -->
-    <div class="ejercicio">
-        <h2>Ejercicio 17: Evolución de Soluciones para un Problema de Optimización en un Sistema Multiagente</h2>
-        <p>En un entorno multiagente, utiliza AGs para encontrar soluciones óptimas para la cooperación entre los agentes.</p>
-        
-        <div class="row parametros">
-            <div class="col-md-4 parametro-group">
-                <label for="pob-multiagente" class="form-label">Población:</label>
-                <input type="number" id="pob-multiagente" class="form-control" value="20" min="10">
-            </div>
-            <div class="col-md-4 parametro-group">
-                <label for="gen-multiagente" class="form-label">Generaciones:</label>
-                <input type="number" id="gen-multiagente" class="form-control" value="50" min="10">
-            </div>
-            <div class="col-md-4 parametro-group">
-                <label for="mut-multiagente" class="form-label">Tasa de mutación:</label>
-                <input type="number" id="mut-multiagente" class="form-control" value="0.1" min="0" max="1" step="0.01">
-            </div>
-        </div>
-        
-        <button id="ejecutar-multiagente" class="btn btn-custom">Optimizar Sistema</button>
-        <div id="resultado-multiagente" class="resultado"></div>
-    </div>
-
-    <!-- Ejercicio 18: Diseño de Circuitos Electrónicos Usando AG -->
-    <div class="ejercicio">
-        <h2>Ejercicio 18: Diseño de Circuitos Electrónicos Usando AG</h2>
-        <p>Implementa un AG para encontrar la configuración óptima de un circuito electrónico, como un amplificador.</p>
-        
-        <div class="row parametros">
-            <div class="col-md-4 parametro-group">
-                <label for="pob-circuito" class="form-label">Población:</label>
-                <input type="number" id="pob-circuito" class="form-control" value="20" min="10">
-            </div>
-            <div class="col-md-4 parametro-group">
-                <label for="gen-circuito" class="form-label">Generaciones:</label>
-                <input type="number" id="gen-circuito" class="form-control" value="50" min="10">
-            </div>
-            <div class="col-md-4 parametro-group">
-                <label for="mut-circuito" class="form-label">Tasa de mutación:</label>
-                <input type="number" id="mut-circuito" class="form-control" value="0.1" min="0" max="1" step="0.01">
-            </div>
-        </div>
-        
-        <button id="ejecutar-circuito" class="btn btn-custom">Optimizar Circuito</button>
-        <div id="resultado-circuito" class="resultado"></div>
-    </div>
-
-    <!-- Ejercicio 19: Optimización de Algoritmos de Búsqueda de Rutas en un Mapa (con Gráfico) -->
-    <div class="ejercicio">
-        <h2>Ejercicio 19: Optimización de Algoritmos de Búsqueda de Rutas en un Mapa (con Gráfico)</h2>
-        <p>Mejora el algoritmo de búsqueda de rutas usando AGs para encontrar rutas más rápidas y seguras.</p>
-        
-        <div class="row parametros">
-            <div class="col-md-4 parametro-group">
-                <label for="num-ciudades-ruta" class="form-label">Número de ciudades:</label>
-                <input type="number" id="num-ciudades-ruta" class="form-control" value="6" min="3" max="10">
-            </div>
-            <div class="col-md-4 parametro-group">
-                <label for="pob-ruta" class="form-label">Población:</label>
-                <input type="number" id="pob-ruta" class="form-control" value="10" min="5">
-            </div>
-            <div class="col-md-4 parametro-group">
-                <label for="gen-ruta" class="form-label">Generaciones:</label>
-                <input type="number" id="gen-ruta" class="form-control" value="10" min="5">
-            </div>
-        </div>
-        
-        <button id="ejecutar-ruta" class="btn btn-custom">Optimizar Ruta</button>
-        <div id="grafico-ruta" class="grafico-container"></div>
-        <div id="resultado-ruta" class="resultado"></div>
+    
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -937,6 +725,40 @@
             }
         });
 
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Función auxiliar para obtener un número aleatorio en un rango
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        // Función auxiliar para obtener un número aleatorio decimal en un rango
+        function getRandomFloat(min, max) {
+            return Math.random() * (max - min) + min;
+        }
+
+        // Función para crear un gráfico con Plotly
+        function crearGrafico(contenedorId, titulo, historial, ejeY = 'Fitness') {
+            const generaciones = historial.map(item => item.generacion);
+            const valores = historial.map(item => item.mejorPerdida || item.mejorFitness);
+            
+            const trace = {
+                x: generaciones,
+                y: valores,
+                type: 'scatter',
+                mode: 'lines+markers',
+                name: 'Mejor ' + ejeY
+            };
+            
+            const layout = {
+                title: titulo,
+                xaxis: { title: 'Generación' },
+                yaxis: { title: ejeY }
+            };
+            
+            Plotly.newPlot(contenedorId, [trace], layout);
+        }
+
         // Ejercicio 10: Optimización de Red Eléctrica
         document.getElementById('ejecutar-red').addEventListener('click', function() {
             const numNodos = parseInt(document.getElementById('num-nodos').value);
@@ -952,6 +774,7 @@
                 // configuracion es un array que representa parámetros de la red
                 let perdidas = 0;
                 for (let i = 0; i < configuracion.length; i++) {
+                    // Pérdidas aumentan con la desviación de un valor ideal
                     perdidas += Math.abs(configuracion[i] - i) / (i + 1);
                 }
                 return perdidas;
@@ -966,7 +789,7 @@
                 return config;
             }
             
-            // Operador de cruce
+            // Operador de cruce (punto de cruce único)
             function cruzarConfiguraciones(conf1, conf2) {
                 const puntoCruce = getRandomInt(1, numNodos - 2);
                 const hijo = [
@@ -976,7 +799,7 @@
                 return hijo;
             }
             
-            // Operador de mutación
+            // Operador de mutación (mutación aleatoria de un gen)
             function mutarConfiguracion(config) {
                 const idx = getRandomInt(0, numNodos - 1);
                 config[idx] = getRandomFloat(0, numNodos);
@@ -1014,12 +837,14 @@
                     mejorPerdida: mejorPerdidaGen
                 });
                 
-                // Selección (torneo)
+                // Selección (torneo binario)
                 const nuevaPoblacion = [];
                 for (let i = 0; i < pobRed; i++) {
+                    // Seleccionar 2 individuos al azar
                     const idx1 = getRandomInt(0, pobRed - 1);
                     const idx2 = getRandomInt(0, pobRed - 1);
                     
+                    // El mejor de los dos pasa a la siguiente generación
                     const ganador = perdidas[idx1] < perdidas[idx2] ? 
                         [...poblacion[idx1]] : [...poblacion[idx2]];
                     nuevaPoblacion.push(ganador);
@@ -1032,6 +857,7 @@
                         const hijo1 = cruzarConfiguraciones(nuevaPoblacion[i], nuevaPoblacion[i+1]);
                         const hijo2 = cruzarConfiguraciones(nuevaPoblacion[i+1], nuevaPoblacion[i]);
                         
+                        // Mutar con cierta probabilidad (10%)
                         if (Math.random() < 0.1) mutarConfiguracion(hijo1);
                         if (Math.random() < 0.1) mutarConfiguracion(hijo2);
                         
@@ -1044,389 +870,13 @@
             
             // Mostrar resultados
             document.getElementById('resultado-red').innerHTML = `
-                Mejor configuración encontrada:<br>
+                <strong>Mejor configuración encontrada:</strong><br>
                 ${mejorConfiguracion.map((val, idx) => `Nodo ${idx}: ${val.toFixed(2)}`).join('<br>')}<br>
-                Pérdidas estimadas: ${mejorPerdida.toFixed(4)}
+                <strong>Pérdidas estimadas:</strong> ${mejorPerdida.toFixed(4)}
             `;
             
             // Crear gráfico de evolución
-            crearGrafico('grafico-red', 'Evolución de las Pérdidas en la Red', historial);
-        });
-
-        // Ejercicio 11: Optimización de la Arquitectura de una Red Neuronal
-        document.getElementById('ejecutar-red-neuronal').addEventListener('click', function() {
-            const pobRedNeuronal = parseInt(document.getElementById('pob-red-neuronal').value);
-            const genRedNeuronal = parseInt(document.getElementById('gen-red-neuronal').value);
-            const mutRedNeuronal = parseFloat(document.getElementById('mut-red-neuronal').value);
-            
-            // Simulación simplificada de optimización de arquitectura de red neuronal
-            // Vamos a optimizar: número de capas ocultas y neuronas por capa
-            
-            // Función de fitness ficticia (simula precisión de la red)
-            function evaluarArquitectura(arquitectura) {
-                // arquitectura es un objeto {capas: número, neuronas: número}
-                const complejidad = arquitectura.capas * arquitectura.neuronas;
-                
-                // Simulamos que hay un punto óptimo de complejidad
-                const optimo = 50;
-                const diferencia = Math.abs(complejidad - optimo);
-                
-                // Precisión simulada (mayor es mejor)
-                const precision = 100 - diferencia;
-                
-                // Queremos maximizar la precisión, pero nuestro algoritmo minimiza
-                return -precision;
-            }
-            
-            // Generar una arquitectura aleatoria
-            function arquitecturaAleatoria() {
-                return {
-                    capas: getRandomInt(1, 5),
-                    neuronas: getRandomInt(5, 30)
-                };
-            }
-            
-            // Operador de cruce
-            function cruzarArquitecturas(arq1, arq2) {
-                return {
-                    capas: Math.round((arq1.capas + arq2.capas) / 2),
-                    neuronas: Math.round((arq1.neuronas + arq2.neuronas) / 2)
-                };
-            }
-            
-            // Operador de mutación
-            function mutarArquitectura(arquitectura) {
-                if (Math.random() < 0.5) {
-                    arquitectura.capas = getRandomInt(1, 5);
-                } else {
-                    arquitectura.neuronas = getRandomInt(5, 30);
-                }
-                return arquitectura;
-            }
-            
-            // Algoritmo genético
-            let mejorArquitectura = null;
-            let mejorPrecision = -Infinity;
-            let historial = [];
-            
-            // Población inicial
-            let poblacion = [];
-            for (let i = 0; i < pobRedNeuronal; i++) {
-                poblacion.push(arquitecturaAleatoria());
-            }
-            
-            // Evolución
-            for (let gen = 0; gen < genRedNeuronal; gen++) {
-                // Evaluar fitness
-                const precisiones = poblacion.map(arq => evaluarArquitectura(arq));
-                
-                // Encontrar la mejor arquitectura de esta generación
-                const mejorPrecisionGen = Math.min(...precisiones);
-                const mejorArquitecturaGen = poblacion[precisiones.indexOf(mejorPrecisionGen)];
-                
-                // Actualizar la mejor global (convertimos a positivo para interpretación)
-                if (-mejorPrecisionGen > -mejorPrecision) {
-                    mejorPrecision = mejorPrecisionGen;
-                    mejorArquitectura = {...mejorArquitecturaGen};
-                }
-                
-                historial.push({
-                    generacion: gen,
-                    mejorPrecision: -mejorPrecisionGen, // Convertimos a positivo
-                    arquitectura: mejorArquitecturaGen
-                });
-                
-                // Selección (torneo)
-                const nuevaPoblacion = [];
-                for (let i = 0; i < pobRedNeuronal; i++) {
-                    const idx1 = getRandomInt(0, pobRedNeuronal - 1);
-                    const idx2 = getRandomInt(0, pobRedNeuronal - 1);
-                    
-                    const ganador = precisiones[idx1] < precisiones[idx2] ? 
-                        {...poblacion[idx1]} : {...poblacion[idx2]};
-                    nuevaPoblacion.push(ganador);
-                }
-                
-                // Cruce y mutación
-                poblacion = [];
-                for (let i = 0; i < pobRedNeuronal; i += 2) {
-                    if (i + 1 < pobRedNeuronal) {
-                        const hijo1 = cruzarArquitecturas(nuevaPoblacion[i], nuevaPoblacion[i+1]);
-                        const hijo2 = cruzarArquitecturas(nuevaPoblacion[i+1], nuevaPoblacion[i]);
-                        
-                        if (Math.random() < mutRedNeuronal) mutarArquitectura(hijo1);
-                        if (Math.random() < mutRedNeuronal) mutarArquitectura(hijo2);
-                        
-                        poblacion.push(hijo1, hijo2);
-                    } else {
-                        poblacion.push(nuevaPoblacion[i]);
-                    }
-                }
-            }
-            
-            // Mostrar resultados
-            document.getElementById('resultado-red-neuronal').innerHTML = `
-                Mejor arquitectura encontrada:<br>
-                - Capas ocultas: ${mejorArquitectura.capas}<br>
-                - Neuronas por capa: ${mejorArquitectura.neuronas}<br>
-                - Precisión estimada: ${-mejorPrecision.toFixed(2)}%<br>
-                - Complejidad total: ${mejorArquitectura.capas * mejorArquitectura.neuronas} neuronas
-            `;
-            
-            // Crear gráfico de evolución
-            const generaciones = historial.map(item => item.generacion);
-            const precisiones = historial.map(item => item.mejorPrecision);
-            
-            const trace = {
-                x: generaciones,
-                y: precisiones,
-                type: 'scatter',
-                mode: 'lines+markers',
-                name: 'Precisión'
-            };
-            
-            const layout = {
-                title: 'Evolución de la Precisión',
-                xaxis: { title: 'Generación' },
-                yaxis: { title: 'Precisión Estimada (%)' }
-            };
-            
-            Plotly.newPlot('grafico-red-neuronal', [trace], layout);
-        });
-
-        // Ejercicio 19: Optimización de Algoritmos de Búsqueda de Rutas en un Mapa
-        document.getElementById('ejecutar-ruta').addEventListener('click', function() {
-            const numCiudades = parseInt(document.getElementById('num-ciudades-ruta').value);
-            const pobRuta = parseInt(document.getElementById('pob-ruta').value);
-            const genRuta = parseInt(document.getElementById('gen-ruta').value);
-            
-            // Generar ciudades aleatorias
-            const ciudades = [];
-            for (let i = 0; i < numCiudades; i++) {
-                ciudades.push({
-                    id: i,
-                    x: getRandomInt(0, 100),
-                    y: getRandomInt(0, 100)
-                });
-            }
-            
-            // Función para calcular distancia entre ciudades
-            function distancia(ciudadA, ciudadB) {
-                const dx = ciudadA.x - ciudadB.x;
-                const dy = ciudadA.y - ciudadB.y;
-                return Math.sqrt(dx*dx + dy*dy);
-            }
-            
-            // Función para calcular distancia total de una ruta
-            function distanciaTotal(ruta) {
-                let total = 0;
-                for (let i = 0; i < ruta.length - 1; i++) {
-                    total += distancia(ruta[i], ruta[i+1]);
-                }
-                // Volver al inicio
-                total += distancia(ruta[ruta.length-1], ruta[0]);
-                return total;
-            }
-            
-            // Generar ruta aleatoria
-            function rutaAleatoria() {
-                const ruta = [...ciudades];
-                // Algoritmo de Fisher-Yates para mezclar
-                for (let i = ruta.length - 1; i > 0; i--) {
-                    const j = Math.floor(Math.random() * (i + 1));
-                    [ruta[i], ruta[j]] = [ruta[j], ruta[i]];
-                }
-                return ruta;
-            }
-            
-            // Operador de cruce (OX)
-            function cruzarRutas(padre1, padre2) {
-                const size = padre1.length;
-                const hijo = new Array(size);
-                
-                // Seleccionar un segmento del padre1
-                const start = getRandomInt(0, size - 1);
-                const end = getRandomInt(start + 1, size);
-                
-                // Copiar el segmento al hijo
-                for (let i = start; i < end; i++) {
-                    hijo[i] = padre1[i];
-                }
-                
-                // Completar con las ciudades del padre2 en orden
-                let posHijo = 0;
-                for (let i = 0; i < size; i++) {
-                    if (posHijo === start) posHijo = end;
-                    if (!hijo.includes(padre2[i])) {
-                        hijo[posHijo] = padre2[i];
-                        posHijo++;
-                    }
-                }
-                
-                return hijo;
-            }
-            
-            // Operador de mutación (swap)
-            function mutarRuta(ruta) {
-                const i = getRandomInt(0, ruta.length - 1);
-                const j = getRandomInt(0, ruta.length - 1);
-                [ruta[i], ruta[j]] = [ruta[j], ruta[i]];
-                return ruta;
-            }
-            
-            // Algoritmo genético
-            let mejorRuta = null;
-            let mejorDistancia = Infinity;
-            let historial = [];
-            
-            // Población inicial
-            let poblacion = [];
-            for (let i = 0; i < pobRuta; i++) {
-                poblacion.push(rutaAleatoria());
-            }
-            
-            // Evolución
-            for (let gen = 0; gen < genRuta; gen++) {
-                // Evaluar fitness
-                const distancias = poblacion.map(ruta => distanciaTotal(ruta));
-                
-                // Encontrar la mejor ruta de esta generación
-                const mejorDistanciaGen = Math.min(...distancias);
-                const mejorRutaGen = poblacion[distancias.indexOf(mejorDistanciaGen)];
-                
-                // Actualizar la mejor global
-                if (mejorDistanciaGen < mejorDistancia) {
-                    mejorDistancia = mejorDistanciaGen;
-                    mejorRuta = [...mejorRutaGen];
-                }
-                
-                historial.push({
-                    generacion: gen,
-                    mejorDistancia: mejorDistanciaGen
-                });
-                
-                // Selección (torneo)
-                const nuevaPoblacion = [];
-                for (let i = 0; i < pobRuta; i++) {
-                    const idx1 = getRandomInt(0, pobRuta - 1);
-                    const idx2 = getRandomInt(0, pobRuta - 1);
-                    
-                    const ganador = distancias[idx1] < distancias[idx2] ? 
-                        [...poblacion[idx1]] : [...poblacion[idx2]];
-                    nuevaPoblacion.push(ganador);
-                }
-                
-                // Cruce y mutación
-                poblacion = [];
-                for (let i = 0; i < pobRuta; i += 2) {
-                    if (i + 1 < pobRuta) {
-                        const hijo1 = cruzarRutas(nuevaPoblacion[i], nuevaPoblacion[i+1]);
-                        const hijo2 = cruzarRutas(nuevaPoblacion[i+1], nuevaPoblacion[i]);
-                        
-                        if (Math.random() < 0.1) mutarRuta(hijo1);
-                        if (Math.random() < 0.1) mutarRuta(hijo2);
-                        
-                        poblacion.push(hijo1, hijo2);
-                    } else {
-                        poblacion.push(nuevaPoblacion[i]);
-                    }
-                }
-            }
-            
-            // Mostrar resultados
-            document.getElementById('resultado-ruta').innerHTML = `
-                Mejor ruta encontrada con distancia total: ${mejorDistancia.toFixed(2)}<br>
-                Ruta: ${mejorRuta.map(ciudad => ciudad.id).join(' → ')} → ${mejorRuta[0].id}
-            `;
-            
-            // Crear gráfico de la ruta
-            const x = [...mejorRuta.map(ciudad => ciudad.x), mejorRuta[0].x];
-            const y = [...mejorRuta.map(ciudad => ciudad.y), mejorRuta[0].y];
-            const ids = [...mejorRuta.map(ciudad => ciudad.id), mejorRuta[0].id];
-            
-            const traceRuta = {
-                x: x,
-                y: y,
-                type: 'scatter',
-                mode: 'lines+markers+text',
-                text: ids,
-                textposition: 'top center',
-                name: 'Ruta'
-            };
-            
-            // Gráfico de evolución
-            const generacionesData = historial.map(item => item.generacion);
-            const distanciasData = historial.map(item => item.mejorDistancia);
-            
-            const traceEvolucion = {
-                x: generacionesData,
-                y: distanciasData,
-                type: 'scatter',
-                mode: 'lines+markers',
-                name: 'Mejor Distancia'
-            };
-            
-            const layout = {
-                title: 'Mejor Ruta Encontrada y Evolución',
-                xaxis: { title: 'Coordenada X' },
-                yaxis: { title: 'Coordenada Y' },
-                showlegend: true
-            };
-            
-            Plotly.newPlot('grafico-ruta', [traceRuta, traceEvolucion], layout);
-        });
-
-        // Inicializar todos los botones restantes con funciones básicas
-        const botones = [
-            'ejecutar-asignacion', 'ejecutar-caracteristicas', 
-            'ejecutar-puente', 'ejecutar-antena', 'ejecutar-pid',
-            'ejecutar-compresion', 'ejecutar-multiagente', 'ejecutar-circuito'
-        ];
-        
-        botones.forEach(id => {
-            document.getElementById(id).addEventListener('click', function() {
-                const ejercicio = id.replace('ejecutar-', '');
-                document.getElementById(`resultado-${ejercicio}`).innerHTML = `
-                    Simulación del ejercicio ${ejercicio} completada.<br>
-                    Esta es una implementación básica. Para una implementación completa, 
-                    se necesitaría desarrollar el algoritmo genético específico para este problema.
-                `;
-                
-                // Si hay un contenedor de gráfico, crear uno básico
-                if (document.getElementById(`grafico-${ejercicio}`)) {
-                    const trace = {
-                        x: [1, 2, 3, 4, 5],
-                        y: [10, 15, 13, 17, 10],
-                        type: 'scatter',
-                        name: 'Fitness'
-                    };
-                    
-                    const layout = {
-                        title: `Evolución del Fitness (Ejercicio ${ejercicio})`,
-                        xaxis: { title: 'Generación' },
-                        yaxis: { title: 'Fitness' }
-                    };
-                    
-                    Plotly.newPlot(`grafico-${ejercicio}`, [trace], layout);
-                }
-                
-                // Si es el ejercicio de asignación, crear una tabla básica
-                if (ejercicio === 'asignacion') {
-                    const numTareas = parseInt(document.getElementById('num-tareas').value) || 5;
-                    const numRecursos = parseInt(document.getElementById('num-recursos').value) || 3;
-                    
-                    let tablaHTML = '<table><tr><th>Tarea</th><th>Recurso Asignado</th><th>Tiempo Estimado</th></tr>';
-                    
-                    for (let i = 0; i < numTareas; i++) {
-                        const recurso = getRandomInt(1, numRecursos);
-                        const tiempo = getRandomInt(1, 10);
-                        tablaHTML += `<tr><td>${i+1}</td><td>${recurso}</td><td>${tiempo} horas</td></tr>`;
-                    }
-                    
-                    tablaHTML += '</table>';
-                    document.getElementById('tabla-asignacion').innerHTML = tablaHTML;
-                }
-            });
+            crearGrafico('grafico-red', 'Evolución de las Pérdidas en la Red', historial, 'Pérdidas');
         });
     </script>
 </body>
